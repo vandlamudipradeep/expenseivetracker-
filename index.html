@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="saveUserDetailsInLocalStorage(event)">
+        <label>Choose expenesive amount :</label>
+        <input id="amount" type="number" name="amount" required />
+        <br>
+        <label>Choose description : </label>
+        <input id="description" type="description" name="descriptionId" required />
+        <br />
+        <label>Choose category</label>
+        <select id="category" type="choosee" name="category" required >
+         
+            <option >fuel</option>
+            <option >morning show</option> 
+            <option >new</option>
+            <option >2BHK</option>
+            <option >Others</option>
+        </select>
+        <br />
+        <button>Add Expenses</button>
+    </form>
+        <li id="ListOfUsers"></li>
+    <script>
+      function saveUserDetailsInLocalStorage(event){
+        event.preventDefault();
+        let amount = event.target.amount.value ; 
+        let des = event.target.description.value ;
+        let cat = event.target.category.value ; 
+        let obj = {
+            amount ,
+            des,
+            cat
+        }
+      //  localStorage.setItem('obj', JSON.stringify(obj));
+        localStorage.setItem(obj.des , JSON.stringify(obj));
+        showUserOnscreen(obj)
+      }
+     function showUserOnscreen(user){
+        const parentNode = document.getElementById('ListOfUsers');
+      
+        const ChildHTML = `<li id=${user.des}>${user.amount} - ${user.des}
+            <button onClick=deleteUser('${user.des}')>Delete User</button>
+            <button onClick=editUser('${user.des}','${user.amount}','${user.cat}')>Edit User</button>
+            </li>`;
+            parentNode.innerHTML += ChildHTML ; 
+     }
+     function deleteUser(descriptionId){
+        
+        localStorage.removeItem(descriptionId);
+      removeFromScreen(descriptionId);
+     }
+     function removeFromScreen(amount){
+           const parentNode = document.getElementById('ListOfUsers');
+           const childNode = document.getElementById(amount);
+           if(childNode){
+            parentNode.removeChild(childNode);
+           }
+     }
+     function editUser(descriptionId, amount , cat){
+        document.getElementById('description').value = descriptionId ; 
+        document.getElementById('amount').value = amount ;
+        docuemnt.getElementById('category').value = cat ;
+        deleteUser(descriptionId);
+     }
+
+    </script>
+
+    
+</body>
+</html>
